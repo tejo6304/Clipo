@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Clipper API Terminal</title>
+            <title>Clipo API Terminal</title>
             <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
             <style>
                 body {
