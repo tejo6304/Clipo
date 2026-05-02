@@ -11,6 +11,9 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Routes
+app.use('/api/business', require('./routes/business'));
+
 // Serve favicon
 app.get('/favicon.svg', (req, res) => {
     res.sendFile(path.join(__dirname, 'favicon.svg'));
@@ -26,14 +29,14 @@ app.get('/', (req, res) => {
     const dbState = mongoose.connection.readyState;
     const dbStatus = dbState === 1 ? 'CONNECTED' : (dbState === 2 ? 'CONNECTING' : 'DISCONNECTED');
     const env = process.env.NODE_ENV || 'development';
-    
+
     res.send(`
         <!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Clipo API Terminal</title>
+            <title>Clipo </title>
             <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
             <style>
                 body {
@@ -84,14 +87,14 @@ app.get('/', (req, res) => {
             <div class="container">
                 <div class="header">
                     <pre class="system">
-   ____ _ _               _    ____ ___ 
-  / ___| (_)_ __   ___   / \\  |  _ \\_ _|
- | |   | | | '_ \\ / _ \\ / _ \\ | |_) | | 
- | |___| | | |_) | (_) / ___ \\|  __/| | 
-  \\____|_|_| .__/ \\___/_/   \\_\\_|  |___|
-           |_|                          
+         
+ / ___| (_)_ __   ___   
+ | |   | | | '_ \\ / _ \\ 
+ | |___| | | |_) | (_) / 
+ \\____|_|_| .__/ \\___/
+                            |_|                          
                     </pre>
-                    <div>SYSTEM TERMINAL INTERFACE v1.0.0</div>
+                <div>SYSTEM TERMINAL INTERFACE v1.0.0</div>
                 </div>
                 
                 <div><span class="prompt"></span> ./status.sh</div>
@@ -118,8 +121,8 @@ app.get('/', (req, res) => {
 // Database Connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mern_db';
 mongoose.connect(MONGODB_URI)
-  .then(() => console.log('MongoDB connection established successfully'))
-  .catch(err => console.error('MongoDB connection error:', err));
+    .then(() => console.log('MongoDB connection established successfully'))
+    .catch(err => console.error('MongoDB connection error:', err));
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);

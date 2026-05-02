@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './index.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import BusinessAuthModal from './components/BusinessAuthModal';
 
 function App() {
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   return (
     <>
       {/* TopNavBar */}
@@ -24,7 +26,10 @@ function App() {
             Scale your reach with a decentralized network of clippers. Our clip-based system automates distribution, boosts retention, and drives viral expansion.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="w-full sm:w-auto px-10 py-4 bg-violet-600 hover:bg-violet-500 text-white font-bold transition-all uppercase tracking-widest text-sm shadow-[0_0_30px_rgba(139,92,246,0.3)]">
+            <button 
+              onClick={() => setIsAuthModalOpen(true)}
+              className="w-full sm:w-auto px-10 py-4 bg-violet-600 hover:bg-violet-500 text-white font-bold transition-all uppercase tracking-widest text-sm shadow-[0_0_30px_rgba(139,92,246,0.3)]"
+            >
               Start Growing now
             </button>
             <button className="w-full sm:w-auto px-10 py-4 bg-transparent border border-zinc-700 hover:border-violet-400 text-white font-bold transition-all uppercase tracking-widest text-sm">
@@ -96,7 +101,7 @@ function App() {
       {/* How It Works */}
       <section className="py-24 px-6 max-w-7xl mx-auto">
         <div className="text-center mb-20">
-          <h2 className="font-headline text-4xl font-bold tracking-tighter mb-4">ENGINEERING GROWTH</h2>
+          <h2 className="font-headline text-4xl font-bold tracking-tighter mb-4">DECENTRALISED GROWTH</h2>
           <div className="w-20 h-1 bg-violet-500 mx-auto"></div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
@@ -245,6 +250,7 @@ function App() {
 
       {/* Footer */}
       <Footer />
+      <BusinessAuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </>
   );
 }
