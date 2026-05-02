@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Clipper | Turn Content Into Growth Machines</title>
+  
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <script>
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    obsidian: "#0e0e0e",
+                    violet: {
+                        400: "#bd9dff",
+                        500: "#a885f7",
+                        600: "#8b5cf6",
+                        950: "#1e1b4b"
+                    }
+                },
+                borderRadius: {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+                },
+                fontFamily: {
+                    headline: ["Space Grotesk", "sans-serif"],
+                    body: ["Public Sans", "sans-serif"],
+                    label: ["Space Grotesk", "sans-serif"],
+                    mono: ["JetBrains Mono", "monospace"]
+                }
+            },
+        },
+    }
+  </script>
+</head>
+<body class="font-body selection:bg-violet-500 selection:text-white">
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>
