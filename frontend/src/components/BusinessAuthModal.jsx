@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const BusinessAuthModal = ({ isOpen, onClose }) => {
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({ companyName: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ companyName: '', email: '', password: '', confirmPassword: '', role: '', businessType: '' });
   const [error, setError] = useState('');
 
   if (!isOpen) return null;
@@ -12,10 +12,16 @@ const BusinessAuthModal = ({ isOpen, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (!isLogin && formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
     const endpoint = isLogin ? '/api/business/login' : '/api/business/signup';
     
     try {
-      const res = await fetch(`http://localhost:5000${endpoint}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5003'}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(isLogin ? { email: formData.email, password: formData.password } : formData)
@@ -60,18 +66,49 @@ const BusinessAuthModal = ({ isOpen, onClose }) => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
-            <div>
-              <label className="block text-xs font-mono text-zinc-400 uppercase mb-2">Company Name</label>
-              <input 
-                type="text" 
-                name="companyName"
-                value={formData.companyName}
-                onChange={handleChange}
-                required
-                className="w-full bg-zinc-900 border border-zinc-800 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 text-white px-4 py-3 outline-none transition-all font-mono text-sm"
-                placeholder="NEURALSTREAM INC."
-              />
-            </div>
+            <>
+              <div>
+                <label className="block text-xs font-mono text-zinc-400 uppercase mb-2">Company Name</label>
+                <input 
+                  type="text" 
+                  name="companyName"
+                  value={formData.companyName}
+                  onChange={handleChange}
+                  required
+                  className="w-full bg-zinc-900 border border-zinc-800 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 text-white px-4 py-3 outline-none transition-all font-mono text-sm"
+                  placeholder="NEURALSTREAM INC."
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-mono text-zinc-400 uppercase mb-2">Role</label>
+                <input 
+                  type="text" 
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  required
+                  className="w-full bg-zinc-900 border border-zinc-800 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 text-white px-4 py-3 outline-none transition-all font-mono text-sm"
+                  placeholder="e.g. MARKETING MANAGER"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-mono text-zinc-400 uppercase mb-2">Business Type</label>
+                <select 
+                  name="businessType"
+                  value={formData.businessType}
+                  onChange={handleChange}
+                  required
+                  className="w-full bg-zinc-900 border border-zinc-800 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 text-white px-4 py-3 outline-none transition-all font-mono text-sm"
+                >
+                  <option value="" disabled>SELECT_INDUSTRY</option>
+                  <option value="E-commerce">E-commerce</option>
+                  <option value="SaaS">SaaS / Software</option>
+                  <option value="Agency">Agency</option>
+                  <option value="Media">Media / Entertainment</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </>
           )}
           <div>
             <label className="block text-xs font-mono text-zinc-400 uppercase mb-2">Email Address</label>
@@ -86,7 +123,7 @@ const BusinessAuthModal = ({ isOpen, onClose }) => {
             />
           </div>
           <div>
-            <label className="block text-xs font-mono text-zinc-400 uppercase mb-2">Access Key (Password)</label>
+            <label className="block text-xs font-mono text-zinc-400 uppercase mb-2">Password</label>
             <input 
               type="password" 
               name="password"
@@ -97,6 +134,20 @@ const BusinessAuthModal = ({ isOpen, onClose }) => {
               placeholder="••••••••••••"
             />
           </div>
+          {!isLogin && (
+            <div>
+              <label className="block text-xs font-mono text-zinc-400 uppercase mb-2">Confirm Password</label>
+              <input 
+                type="password" 
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+                className="w-full bg-zinc-900 border border-zinc-800 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 text-white px-4 py-3 outline-none transition-all font-mono text-sm"
+                placeholder="••••••••••••"
+              />
+            </div>
+          )}
           
           <button 
             type="submit"

@@ -7,7 +7,7 @@ const Business = require('../models/Business');
 // Signup
 router.post('/signup', async (req, res) => {
   try {
-    const { companyName, email, password } = req.body;
+    const { companyName, email, password, role, businessType } = req.body;
     
     // Check if business already exists
     let business = await Business.findOne({ email });
@@ -22,7 +22,9 @@ router.post('/signup', async (req, res) => {
     business = new Business({
       companyName,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      role,
+      businessType
     });
 
     await business.save();
@@ -31,7 +33,7 @@ router.post('/signup', async (req, res) => {
     const payload = { business: { id: business.id } };
     const token = jwt.sign(payload, process.env.JWT_SECRET || 'clipo_secret', { expiresIn: '5h' });
 
-    res.status(201).json({ token, business: { id: business.id, companyName, email } });
+    res.status(201).json({ token, business: { id: business.id, companyName, email, role, businessType } });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
